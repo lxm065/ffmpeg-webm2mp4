@@ -1,0 +1,74 @@
+package main
+
+import (
+	"fmt"
+	"os/exec"
+
+	"fyne.io/fyne/v2"
+	"fyne.io/fyne/v2/app"
+	"fyne.io/fyne/v2/container"
+	"fyne.io/fyne/v2/dialog"
+	"fyne.io/fyne/v2/widget"
+)
+
+func test() {
+	// 创建新的应用
+	myApp := app.New()
+
+	// 创建窗口
+	myWindow := myApp.NewWindow("FFmpeg Converter")
+
+	// 窗口大小
+	myWindow.Resize(fyne.NewSize(300, 150))
+	// 窗口居中
+	myWindow.CenterOnScreen()
+	// 窗口标题
+	myWindow.SetTitle("FFmpeg 转换器")
+
+	// 输入输出文件名称的输入框
+	//outputEntry := widget.NewEntry()
+	//outputEntry.SetPlaceHolder("输入输出文件名:exmap:b.mp4")
+
+	// 运行按钮
+	runButton := widget.NewButton("run now", func() {
+		inputFile := outputEntry.Text
+		// 构建并执行FFmpeg命令
+		cmd := exec.Command("ffmpeg", "-i", selectedFile, inputFile)
+		err := cmd.Run()
+		if err != nil {
+			dialog.ShowError(err, myWindow)
+			return
+		}
+		dialog.ShowInformation("成功", "文件转换完成", myWindow)
+	})
+
+	// 文件选择器
+	fileDialog := dialog.NewFileOpen(
+		func(r fyne.URIReadCloser, err error) {
+			if err != nil {
+				dialog.ShowError(err, myWindow)
+				return
+			}
+			if r == nil {
+				return
+			}
+			selectedFile = r.URI().Path()
+			fmt.Println("select file：", selectedFile)
+		}, myWindow)
+
+	selectButton := widget.NewButton("select file", func() {
+		fileDialog.Show()
+	})
+
+	// 将控件添加到窗口
+	myWindow.SetContent(container.NewVBox(
+		selectButton,
+		outputEntry,
+		runButton,
+	))
+
+	myWindow.ShowAndRun()
+}
+
+// 用于存储选择的文件路径
+var selectedFile string
