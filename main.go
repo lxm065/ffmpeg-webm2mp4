@@ -27,7 +27,7 @@ func main() {
 	myWindow.SetTitle("FFmpeg 转换器")
 
 	selectButton_text := widget.NewEntry()
-	selectButton_text.SetPlaceHolder("you select file name,eg:input.webm")
+	selectButton_text.SetPlaceHolder("you select file name will be show here,eg:input.webm")
 
 	// 输入输出文件名称的输入框
 	outputEntry := widget.NewEntry()
@@ -39,7 +39,7 @@ func main() {
 	// 运行按钮
 	runButton := widget.NewButton("run now", func() {
 		// 提示开始运行
-		startButton_text.SetText("start run")
+		startButton_text.SetText("start running,please wait...")
 
 		// 判断输入文件是否为空是否是.webm文件
 		if selectedFile == "" || !strings.HasSuffix(selectedFile, ".webm") {
@@ -78,6 +78,7 @@ func main() {
 			}
 			selectedFile = r.URI().Path()
 			fmt.Println("select file:", selectedFile)
+			// 文件选择器路径显示在文本框中
 			selectButton_text.SetText(strings.ReplaceAll(selectedFile, ".webm", ".mp4"))
 		}, myWindow)
 
