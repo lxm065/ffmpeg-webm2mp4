@@ -79,7 +79,24 @@ func main() {
 			selectedFile = r.URI().Path()
 			fmt.Println("select file:", selectedFile)
 			// 文件选择器路径显示在文本框中
-			selectButton_text.SetText(strings.ReplaceAll(selectedFile, ".webm", ".mp4"))
+			selectButton_text.SetText(selectedFile)
+		}, myWindow)
+
+	// 文件选择器过滤器
+	selectButton := widget.NewButton("select file", func() {
+		fileDialog.Show()
+	})
+
+	// 将控件添加到窗口
+	myWindow.SetContent(container.NewVBox(
+		selectButton,
+		selectButton_text,
+		outputEntry,
+		runButton,
+		startButton_text,
+	))
+
+	my
 		}, myWindow)
 
 	// 文件选择器过滤器
