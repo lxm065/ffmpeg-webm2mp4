@@ -96,23 +96,6 @@ func main() {
 		startButton_text,
 	))
 
-	my
-		}, myWindow)
-
-	// 文件选择器过滤器
-	selectButton := widget.NewButton("select file", func() {
-		fileDialog.Show()
-	})
-
-	// 将控件添加到窗口
-	myWindow.SetContent(container.NewVBox(
-		selectButton,
-		selectButton_text,
-		outputEntry,
-		runButton,
-		startButton_text,
-	))
-
 	myWindow.ShowAndRun()
 }
 
