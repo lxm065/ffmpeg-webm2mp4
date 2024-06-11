@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"os/exec"
+	"path"
 	"strings"
 
 	"fyne.io/fyne/v2"
@@ -13,6 +14,7 @@ import (
 )
 
 func main() {
+
 	// 创建新的应用
 	myApp := app.New()
 
@@ -32,6 +34,13 @@ func main() {
 	// 输入输出文件名称的输入框
 	outputEntry := widget.NewEntry()
 	outputEntry.SetPlaceHolder("input output file name,eg:output.mp4")
+
+	// set_outputEntry_text设置inputFile按钮
+	set_outputEntry_text := widget.NewButton("set output file name", func() {
+		//取出C:/Users/liangxm/Downloads/1.webm文件名1.webm，再修改后缀.webm为.mp4,后填入outputEntry
+		fileName := path.Base(selectButton_text.Text)
+		outputEntry.SetText(strings.TrimSuffix(fileName, ".webm") + ".mp4")
+	})
 
 	startButton_text := widget.NewEntry()
 	startButton_text.SetPlaceHolder("")
@@ -91,6 +100,7 @@ func main() {
 	myWindow.SetContent(container.NewVBox(
 		selectButton,
 		selectButton_text,
+		set_outputEntry_text,
 		outputEntry,
 		runButton,
 		startButton_text,
